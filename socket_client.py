@@ -20,12 +20,13 @@ class SocketClient:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
                 server_socket.connect((self.server_address, 33333))
+                receiver_process = mp.Process(target=self.receiver.receive_command,
+                                              args=(server_socket,))
+                receiver_process.daemon = True
+                receiver_process.start()
 
                 while True:
-                    receiver_process = mp.Process(target=self.receiver.receive_command,
-                                                    args=(server_socket, ))
-                    receiver_process.daemon = True
-                    receiver_process.start()
+                    pass
                     # msg = input('Enter command: ')
                     # if len(msg.strip()) > 0:
                     #     self.logger.info('send [{}] command to server'.format(msg))
