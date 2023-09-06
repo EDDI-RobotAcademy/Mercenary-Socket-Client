@@ -2,24 +2,16 @@ import errno
 import socket
 import time
 
-from receiver.message_queue.manager import ReceiverCommandDataQueue
-
 from datetime import datetime as dt
 
 
 class Receiver:
-    def __init__(self):
+    def __init__(self, receive_queue):
         print("Receiver Constructor")
-        self.receiver_command_data_queue = ReceiverCommandDataQueue()
+        self.receiver_command_data_queue = receive_queue
 
-    def start_rx_thread(self):
-        pass
-
-    def stop_rx_thread(self):
-        pass
-
-    def receive_command(self, server_socket):
-        print("receive_command start!")
+    def start_rx_thread(self, server_socket):
+        print("start_rx_thread start!")
         with server_socket:
             while True:
                 print("wait for receive data")
@@ -36,3 +28,6 @@ class Receiver:
 
                 finally:
                     time.sleep(0.5)
+
+    def stop_rx_thread(self):
+        pass
