@@ -1,14 +1,15 @@
 import queue
 
+
 class TransmitQueue:
     def __init__(self):
-        self.queue = queue.Queue()
+        self.transmit_queue = queue.Queue()
 
     def put(self, data):
-        self.queue.put(data)
+        self.transmit_queue.put(data)
 
     def get(self):
-        return self.queue.get()
+        return self.transmit_queue.get()
 
 
 if __name__ == "__main__":
