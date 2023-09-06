@@ -4,9 +4,10 @@ from decouple import config
 
 class SocketConfig:
     def __init__(self):
+        print("SocketConfig Constructor")
         self.host = config('HOST')
         self.port = int(config('PORT'))
-        self.client_socket = None
+        self.server_socket = None
 
     def set_host(self, host):
         self.host = host
@@ -15,25 +16,32 @@ class SocketConfig:
         self.port = port
 
     def create_socket(self):
-        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print("SocketConfig create_socket()")
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    def get_server_socket(self):
+        return self.server_socket
 
     def connect(self):
-        if not self.client_socket:
+        if not self.server_socket:
             self.create_socket()
 
         try:
-            self.client_socket.connect((self.host, self.port))
+            self.server_socket.connect((self.host, self.port))
             print(f"Connected to {self.host}:{self.port}")
         except ConnectionRefusedError:
             print(f"Connection to {self.host}:{self.port} refused.")
         except Exception as e:
             print(f"Error while connecting: {str(e)}")
 
+    def turn_on_non_blocking(self):
+        self.server_socket.setblocking(False)
+
     def close(self):
-        if self.client_socket:
-            self.client_socket.close()
+        if self.server_socket:
+            self.server_socket.close()
             print("Socket closed.")
-            self.client_socket = None
+            self.server_socket = None
 
 
 # 사용 예시
