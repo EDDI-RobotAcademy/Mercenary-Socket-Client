@@ -3,6 +3,7 @@ import logging
 import sys
 
 import multiprocessing as mp
+import time
 
 from receiver.rx import Receiver
 
@@ -20,13 +21,14 @@ class SocketClient:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
                 server_socket.connect((self.server_address, 33333))
+                server_socket.setblocking(False)
                 receiver_process = mp.Process(target=self.receiver.receive_command,
                                               args=(server_socket,))
                 receiver_process.daemon = True
                 receiver_process.start()
 
                 while True:
-                    pass
+                    time.sleep(0.5)
                     # msg = input('Enter command: ')
                     # if len(msg.strip()) > 0:
                     #     self.logger.info('send [{}] command to server'.format(msg))
