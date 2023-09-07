@@ -26,7 +26,7 @@ class CommandAnalyzer:
         while True:
             received_data = self.receiver_command_data_queue.get()
             if protocol_manager.validate_custom_ai_command(received_data):
-                self.command_analyzer_queue = received_data
+                self.command_analyzer_queue.put(received_data)
                 print("Success to save command analyzer queue")
 
             print("received_data: ", received_data)
