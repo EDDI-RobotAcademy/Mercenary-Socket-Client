@@ -28,7 +28,8 @@ class Receiver:
                     response_str = data.decode().strip()
                     print('{} command received [{}] from server'.format(dt.now(), response_str))
 
-                    self.receiver_command_data_queue.put(response_str)
+                    split_data = data.decode().split(',')
+                    self.receiver_command_data_queue.put(split_data)
 
                 except socket.error as e:
                     if e.errno == errno.EWOULDBLOCK:
