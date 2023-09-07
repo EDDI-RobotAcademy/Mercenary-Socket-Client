@@ -20,23 +20,23 @@ class Receiver:
 
     def receive_command(self):
         print("start_rx_thread start!")
-        with self.server_socket:
-            while True:
-                print("wait for receive data")
-                try:
-                    data = self.server_socket.recv(1024)
-                    response_str = data.decode().strip()
-                    print('{} command received [{}] from server'.format(dt.now(), response_str))
+        while True:
+            # with self.server_socket:
+            print("wait for receive data")
+            try:
+                data = self.server_socket.recv(1024)
+                response_str = data.decode().strip()
+                print('{} command received [{}] from server'.format(dt.now(), response_str))
 
-                    split_data = data.decode().split(',')
-                    self.receiver_command_data_queue.put(split_data)
+                split_data = data.decode().split(',')
+                self.receiver_command_data_queue.put(split_data)
 
-                except socket.error as e:
-                    if e.errno == errno.EWOULDBLOCK:
-                        pass
+            except socket.error as e:
+                if e.errno == errno.EWOULDBLOCK:
+                    pass
 
-                finally:
-                    time.sleep(0.5)
+            finally:
+                time.sleep(0.5)
 
     def stop_rx_thread(self):
         pass
