@@ -9,7 +9,7 @@ class TransmitQueue:
         self.transmit_queue.put(data)
 
     def get(self):
-        return self.transmit_queue.get()
+        return self.transmit_queue.get(False)
 
 
 if __name__ == "__main__":
