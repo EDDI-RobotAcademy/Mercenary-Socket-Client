@@ -1,5 +1,6 @@
 import errno
 import socket
+import threading
 import time
 
 from datetime import datetime as dt
@@ -8,15 +9,22 @@ from datetime import datetime as dt
 class Receiver:
     def __init__(self, receive_queue):
         print("Receiver Constructor")
+        self.rx_thread = threading.Thread(target=self.receive_command,
+                                          name='ReceiverThread')
         self.receiver_command_data_queue = receive_queue
+        self.server_socket = None
 
     def start_rx_thread(self, server_socket):
+        self.server_socket = server_socket
+        self.rx_thread.start()
+
+    def receive_command(self):
         print("start_rx_thread start!")
-        with server_socket:
+        with self.server_socket:
             while True:
                 print("wait for receive data")
                 try:
-                    data = server_socket.recv(1024)
+                    data = self.server_socket.recv(1024)
                     response_str = data.decode().strip()
                     print('{} command received [{}] from server'.format(dt.now(), response_str))
 

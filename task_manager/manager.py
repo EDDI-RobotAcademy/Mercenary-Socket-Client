@@ -28,9 +28,9 @@ class Manager:
 
     def start_all_threads(self, server_socket):
         self.receiver.start_rx_thread(server_socket)
-        self.transmitter.start_tx_thread(server_socket)
         self.command_analyzer.start_analyzer_thread()
         self.command_executor.start_executor_thread()
+        self.transmitter.start_tx_thread(server_socket)
 
     def stop_all_threads(self):
         self.receiver.stop_rx_thread()
