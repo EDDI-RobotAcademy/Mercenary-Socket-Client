@@ -1,10 +1,10 @@
 import socket
 from decouple import config
+# pip install python-decouple
 
 
 class SocketConfig:
     def __init__(self):
-        print("SocketConfig Constructor")
         self.host = config('HOST')
         self.port = int(config('PORT'))
         self.server_socket = None
@@ -16,7 +16,6 @@ class SocketConfig:
         self.port = port
 
     def create_socket(self):
-        print("SocketConfig create_socket()")
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def get_server_socket(self):
@@ -40,7 +39,6 @@ class SocketConfig:
     def close(self):
         if self.server_socket:
             self.server_socket.close()
-            print("Socket closed.")
             self.server_socket = None
 
 

@@ -1,12 +1,13 @@
+import errno
 import os
 import queue
+import socket
 import threading
 import time
 
 
 class Transmitter:
     def __init__(self, transmit_queue):
-        print("Transmitter Constructor")
         self.tx_thread = threading.Thread(target=self.transmit_response, name='TransmitterThread')
         self.thread_lwp = None
         self.pid = None
@@ -19,18 +20,21 @@ class Transmitter:
         self.tx_thread.start()
 
     def transmit_response(self):
-        print("transmitter thread!")
-
         while True:
-            # with self.server_socket:
             try:
                 response = self.transmit_response_queue.get()
 
                 self.server_socket.sendall(response.encode())
-                print("Send response to server success")
+
+            except socket.error as e:
+                if e.errno == errno.EWOULDBLOCK:
+                    pass
+                else:
+                    print("Socket error:", e)
+                    self.server_socket.close()
+                    break
 
             except queue.Empty:
-                print("is it operate ? (transmitter)")
                 time.sleep(1)
 
     def stop_tx_thread(self):
