@@ -8,7 +8,6 @@ from datetime import datetime as dt
 
 class Receiver:
     def __init__(self, receive_queue):
-        print("Receiver Constructor")
         self.rx_thread = threading.Thread(target=self.receive_command,
                                           name='ReceiverThread')
         self.receiver_command_data_queue = receive_queue
@@ -19,14 +18,13 @@ class Receiver:
         self.rx_thread.start()
 
     def receive_command(self):
-        print("start_rx_thread start!")
         while True:
-            # with self.server_socket:
-            print("wait for receive data")
             try:
                 data = self.server_socket.recv(1024)
-                response_str = data.decode().strip()
-                print('{} command received [{}] from server'.format(dt.now(), response_str))
+                if not data:
+                    print("Server disconnected!")
+                    self.server_socket.close()
+                    break
 
                 split_data = data.decode().split(',')
                 self.receiver_command_data_queue.put(split_data)
