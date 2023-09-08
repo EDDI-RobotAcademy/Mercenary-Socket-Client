@@ -20,6 +20,7 @@ class CommandExecutor:
     def execute_command(self):
         while True:
             execution_data = self.command_executor_queue.get()
+            print("execution_data:", execution_data)
 
             command = int(execution_data[0])
             parameter_count = len(execution_data) - 1
