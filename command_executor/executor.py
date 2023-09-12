@@ -24,7 +24,13 @@ class CommandExecutor:
 
             command = int(execution_data[0])
             parameter_count = len(execution_data) - 1
+
+            if parameter_count > 0 and not execution_data[1]:  # 빈 문자열 검사
+                parameter_count = 0
+
+            print(f"parameter_count: {parameter_count}")
             data = execution_data[1:parameter_count + 1]
+            print(f"data: {data}")
 
             response = protocol_manager.execute_custom_ai_command(command, data)
             self.transmit_response_queue.put(response)

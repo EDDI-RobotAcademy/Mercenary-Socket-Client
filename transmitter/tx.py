@@ -24,7 +24,10 @@ class Transmitter:
             try:
                 response = self.transmit_response_queue.get()
 
-                self.server_socket.sendall(response.encode())
+                if response is not None:
+                    self.server_socket.sendall(response.encode())
+                else:
+                    self.server_socket.sendall(b'True')
 
             except socket.error as e:
                 if e.errno == errno.EWOULDBLOCK:
