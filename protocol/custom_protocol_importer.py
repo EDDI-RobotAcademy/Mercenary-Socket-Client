@@ -19,11 +19,13 @@ def register_relative_path(relative_path, custom_user_function, function_map_key
     module = importlib.import_module(module_path_for_importlib)
     # 함수를 사용하여 상대 경로에 있는 모듈을 가져옴
 
+    
+  # 추가했던 부분
+
     if hasattr(module, custom_user_function):
         function_or_class = getattr(module, custom_user_function)
 
-        # 클래스 타입인 경우 클래스 인스턴스 등록 (생성자)
-				# 실제 함수를 등록 할 수 있도록 에셋을 추가해야하나 우선은 보류하겠음
+        # 클래스 타입인 경우 클래스 내의 메서드를 등록
         if inspect.isclass(function_or_class):
             instance = function_or_class()
             global_custom_module[function_map_key] = instance
@@ -58,8 +60,9 @@ def import_custom_handler():
 if __name__ == "__main__":
 
     import_custom_handler()
-
+    
     global_custom_module['age_learn']()
     global_custom_module['age_infer']()
+
 
 
