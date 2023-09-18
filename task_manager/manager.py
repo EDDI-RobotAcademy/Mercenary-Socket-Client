@@ -15,9 +15,9 @@ import os
 
 class Manager:
     def __init__(self):
-        receive_queue = ReceiveQueue()
-        command_queue = CommandQueue()
-        transmit_queue = TransmitQueue()
+        receive_queue = ReceiveQueue() # 명령 데이터를 수신하는 큐
+        command_queue = CommandQueue() # 분석된 명령 데이터를 보관하는 큐
+        transmit_queue = TransmitQueue() # 데이터를 전송하는데 사용되는 큐
 
         self.receiver = Receiver(receive_queue)
         self.transmitter = Transmitter(transmit_queue)
