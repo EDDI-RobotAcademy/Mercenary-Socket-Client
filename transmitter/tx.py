@@ -23,6 +23,7 @@ class Transmitter:
         while True:
             try:
                 response = self.transmit_response_queue.get()
+                print(response)
 
                 if response is not None:
                     self.server_socket.sendall(response.encode())

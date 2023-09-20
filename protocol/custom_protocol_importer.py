@@ -21,14 +21,11 @@ def register_relative_path(relative_path, custom_user_function, function_map_key
 
     
   # 추가했던 부분
-
     if hasattr(module, custom_user_function):
         function_or_class = getattr(module, custom_user_function)
-
         # 클래스 타입인 경우 클래스 내의 메서드를 등록
         if inspect.isclass(function_or_class):
-            instance = function_or_class()
-            global_custom_module[function_map_key] = instance
+            global_custom_module[function_map_key] = function_or_class
         # 함수 타입인 경우 직접 등록
         elif inspect.isfunction(function_or_class):
             global_custom_module[function_map_key] = function_or_class
@@ -41,8 +38,8 @@ def import_custom_handler():
     ]
 
     custom_user_function_name = [
-        "make_learning_data",
-        "deep_learn_age_model_inference",
+        "AgeBasedLearningProcessor",
+        "AgeBasedinferringProcessor",
     ]
 
     module_function_map_key = [

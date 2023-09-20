@@ -45,16 +45,16 @@ class ProtocolManager:
         if not data:
             return command_handler()
         else:
-            return command_handler(data)
+            return command_handler(data[0])
 
 def recommend_card_analysis(data):
 
     custom_protocol_importer_module.import_custom_handler()
 
     protocol_manager = ProtocolManager()
-    protocol_manager.register_custom_ai_command(data, 0, custom_protocol_importer_module.global_custom_module['age_infer'])
+    protocol_manager.register_custom_ai_command(data[0], 1, custom_protocol_importer_module.global_custom_module['age_infer'])
 
-    card_result = protocol_manager.execute_custom_ai_command(data, None)
+    card_result = protocol_manager.execute_custom_ai_command(data[0], None)
     return card_result
 
     # 이런 식으로 하면 될듯
@@ -78,10 +78,11 @@ protocol_manager.register_custom_ai_command(20, 0, recommend_card_analysis)
 custom_protocol_importer_module.import_custom_handler()
 protocol_manager.register_custom_ai_command(3, 0, custom_protocol_importer_module.global_custom_module['age_learn'])
 protocol_manager.register_custom_ai_command(7, 0, custom_protocol_importer_module.global_custom_module['age_infer'])
+protocol_manager.register_custom_ai_command(1, 1, recommend_card_analysis)
 
 
 if __name__ == "__main__":
 
-    recommend_card = protocol_manager.execute_custom_ai_command(20, ",")
+    recommend_card = protocol_manager.execute_custom_ai_command(20, "")
     print(" 추천된 카드 : ", recommend_card)
 
