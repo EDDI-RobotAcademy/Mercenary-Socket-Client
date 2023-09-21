@@ -4,6 +4,7 @@ import time
 
 from protocol.manager import protocol_manager
 
+# 데이터들을 비동기적으로 분석
 
 class CommandAnalyzer:
     def __init__(self, receive_queue, command_queue):
@@ -23,7 +24,6 @@ class CommandAnalyzer:
             print("received_data:", received_data)
             if protocol_manager.validate_custom_ai_command(received_data):
                 self.command_analyzer_queue.put(received_data)
-
             time.sleep(1)
 
     def stop_analyzer_thread(self):
