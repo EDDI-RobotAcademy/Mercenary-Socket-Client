@@ -4,6 +4,7 @@ import queue
 import socket
 import threading
 import time
+import json
 
 
 class Transmitter:
@@ -26,7 +27,8 @@ class Transmitter:
                 print(response)
 
                 if response is not None:
-                    self.server_socket.sendall(response.encode())
+                    # self.server_socket.sendall(response.encode())
+                    self.server_socket.sendall(json.dumps(response).encode())
                 else:
                     self.server_socket.sendall(b'True')
 
